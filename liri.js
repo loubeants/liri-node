@@ -1,17 +1,38 @@
 require('dotenv').config()
-var keys = require('./keys');
+var keys = require('./keys.js');
+var axios = require('axios');
 
 var command = process.argv[2];
 var Spotify = require('node-spotify-api');
 
-var spotify = new Spotify({
+var getMovie = function(movieName) {
+    movieName = process.argv[3]
+    
+    var queryUrl= 'http://www.omdbapi.com/?t=' + movieName + '&y=&plot=short&apikey=trilogy';
+axios.get(queryUrl)
+  .then(
+      function (response) {
+    console.log(response.data.Actors,"\n","xxxxxxxxxxxxxxxxxxxxxxxxxxxx","\n",response.data.Plot);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+}
+
+if (command === 'movie') {
+    getMovie();
+    }
+
+    var spotify = new Spotify({
     id: keys.spotify.id,
     secret: keys.spotify.secret
-});
+})
 
-if (command === 'spotify-this-song') {
-spotifySearch(process.argv[3]);
-}else if (command === 'ombd-this-movie')
+
+}else if (command === 'ombd-this-movie'){
+
+}
+
 function spotifySearch(song) {
     spotify.search({ type: 'track', query: song, limit: 1, market: 'US' }, function (err, data) {
         if (err) {
@@ -21,22 +42,6 @@ function spotifySearch(song) {
         console.log(JSON.stringify(data.tracks.items[0], null, 2));
     });
 }
-var getMovie = function(movieNmae) {
-    
-    request('http://www.omdbapi.com/?i=' + movieName + 'tt3896198&apikey=f8deecd0',
-        function(err, response, body) {
-            if(err) {
-                return console.log (err)
-            };
-        }
-    }
-// axios.get('/user?ID=12345')
-//   .then(function (response) {
-//     console.log(response);
-//   })
-//   .catch(function (error) {
-//     console.log(error);
-//   });
 
 
 

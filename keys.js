@@ -5,6 +5,6 @@ exports.spotify = {
     secret: process.env.SPOTIFY_SECRET,
 };
 
-exports.ombd = {
-    key: f8deecd0
-};
+// exports.ombd = {
+//     key: f8deecd0
+// };
